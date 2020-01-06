@@ -20,7 +20,7 @@
     <div class="container">
         <div class="">
             <div class="form-group">
-                <label>Степень для чмсла 2 - колтчество элементов в шаге</label>
+                <label>Степень для числа 2 - колтчество элементов в шаге</label>
                 <input id="test-elements" type="number" step="1" class="form-control" placeholder="">
             </div>
 
