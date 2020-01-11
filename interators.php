@@ -20,14 +20,18 @@
     <div class="container">
         <div class="">
             <div class="form-group">
-                <label>Степень для числа 2 - колтчество элементов в шаге</label>
-                <input id="test-elements" type="number" step="1" class="form-control" placeholder="">
+                <label>Степень для числа 2 - количество элементов в шаге</label>
+                <input id="test-elements" type="number" step="1" class="form-control" value="20" placeholder="">
             </div>
 
             <a href="#test" id="btn-start" class="btn btn-primary">Начать тест</a>
         </div>
-
+        <br>
+        Время выполнения:
         <div class="ct-chart" style="margin-top:30px;height:500px;"></div>
+        <br>
+        Выделенная память:
+        <div class="ct-chart-memo" style="margin-top:30px;height:500px;"></div>
         <script>
             var test = function() {
                 var input = document.querySelector("#test-elements");
@@ -36,6 +40,8 @@
                 var chart_a = [];
                 var chart_b = [];
                 var labels = [];
+                var chart_a_memo = [];
+                var chart_b_memo = [];
 
                 btn.addEventListener('click', () => {
 
@@ -47,11 +53,14 @@
 
                             let a = JSON.parse(request(data, 'foreach'));
                             chart_a.push( a.Time );
+                            chart_a_memo.push( a.memory );
 
                             let b = JSON.parse(request(data, 'spl'));
                             chart_b.push( b.Time );
-
+                            chart_b_memo.push( b.memory );
                         }
+
+
 
                         var data = {
                             labels: labels,
@@ -74,6 +83,30 @@
                             }]
                         ];
                         new Chartist.Bar('.ct-chart', data, options, responsiveOptions);
+
+
+
+                        var data = {
+                            labels: labels,
+                            series: [
+                                chart_a_memo,
+                                chart_b_memo
+                            ]
+                        };
+                        var options = {
+                            seriesBarDistance: 10
+                        };
+                        var responsiveOptions = [
+                            ['screen and (max-width: 640px)', {
+                                seriesBarDistance: 5,
+                                axisX: {
+                                    labelInterpolationFnc: function (value) {
+                                        return value[0];
+                                    }
+                                }
+                            }]
+                        ];
+                        new Chartist.Bar('.ct-chart-memo', data, options, responsiveOptions);
                 });
 
                 var request = function(val, type) {
