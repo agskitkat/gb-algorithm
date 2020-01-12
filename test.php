@@ -1,10 +1,9 @@
 <?php
-
-$array = [];
-// Cake array
+// Обычный массив
 for($i = 0; $i < $_GET['test']; $i++) {
     $array[$i] = true;
 }
+
 
 // Объект исследованиея
 $object = $_GET['type'] === "foreach"?:'spl';
@@ -13,8 +12,8 @@ $object = $_GET['type'] === "foreach"?:'spl';
 $operation = $_GET['operation']?:'bruteforce';
 
 // Выбор операции
-if($operation === "bruteforce" ) { // Перебор массива
-    if ($object === "foreach") {
+
+    if ($_GET['type'] === "foreach") {
         // Обычное foreach
         $interation = 0;
         $ta = microtime(true);
@@ -26,30 +25,25 @@ if($operation === "bruteforce" ) { // Перебор массива
         $ar['Time'] = $te - $ta;
         $ar['Type'] = "FOREACH";
     } else {
-        // Обычное SPL
+        // SPL
+        $iter = new ArrayIterator($array);
         $interation = 0;
-        $obj = new ArrayObject($array);
-        $iter = $obj->getIterator();
-        $ta2 = microtime(true);
-        while ($iter->valid()) {
+        $ta = microtime(true);
+        /*while ($iter->valid()) {
             $interation++;
             $iter->next();
+        }*/
+        for($iter->rewind(); $iter->valid(); $iter->next()){
+            $interation++;
         }
-        $te2 = microtime(true);
-        $ar['Time'] = ($te2 - $ta2);
+        $te = microtime(true);
+        $ar['Time'] = ($te - $ta);
         $ar['Type'] = "SPL";
     }
 
 
-} elseif ($operation === "find" ) { // Доступ к элементам
-
-} elseif ($operation === "add" ) {  // Добавление элементов
-
-} elseif ($operation === "remove" ) { // Удаление элементов
-
-}
-
 
 $ar['Time'] = round($ar['Time'], 10);
 $ar['memory'] = memory_get_usage() / 100000;
+
 echo json_encode($ar);

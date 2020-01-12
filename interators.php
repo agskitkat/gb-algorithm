@@ -125,6 +125,9 @@
 
            new test();
         </script>
+        <div class="text">
+            <h2></h2>
+        </div>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
