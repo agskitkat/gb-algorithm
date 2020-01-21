@@ -7,10 +7,23 @@
  * (бинарный поиск)
  */
 
+$array = [];
+$max = 2**10; // Количество элементов массива
+$remove = rand(1, $max);
+for($i = 0; $i < $max; $i++) {
+    if($i != $remove) {
+        $array[] = $i;
+    }
+}
+echo "Пропущеное число = " .  $remove . PHP_EOL;
+
+
+
 // Метод побыстрее метод - O(log n)
 $start = microtime(true);
 /**
- * Обычный бинврный поиск
+ * Обычный бинврный поиск, из предыдущего урока
+ * Завязан на ключе массива. Ключ равен значению
  *
  * @param $array
  * @param $min
@@ -22,7 +35,7 @@ function findLostNumberBinary(&$array, $min, $max) {
     if(($max - $min) == 1) {
         return $max;
     }
-    if($middle == $array[$middle]) {
+    if($middle == $array[$middle]) { // Завязан на соответствии ключа массива
         return findLostNumberBinary($array, $middle, $max);
     } else {
         return findLostNumberBinary($array, $min, $middle);
